@@ -32,7 +32,6 @@ export default function FormInput<T extends FieldValues>({
   onChange,
   placeholder,
   defaultValue,
-  type = "text", // Default type is text
 }: Readonly<FormInputProps<T>>) {
   const {
     field,

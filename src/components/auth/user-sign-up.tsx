@@ -25,7 +25,7 @@ const UserSignUp = () => {
       .then(() => {
         toast.success("Account created successfully!"); // Show a success toast
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error("sign Up Failed");
       })
       .finally(() => {

@@ -2,7 +2,6 @@ import React from "react";
 import { Doc } from "../../../convex/_generated/dataModel";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,14 +10,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  CalendarIcon,
-  ClockIcon,
-  GripVerticalIcon,
-  InboxIcon,
-} from "lucide-react";
+import { CalendarIcon, GripVerticalIcon, InboxIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
+
 import TaskDialog from "./task-dialog";
 
 interface TaskCardProps {
@@ -43,6 +37,13 @@ export const TaskCard = ({ task }: TaskCardProps) => {
     ? format(new Date(dueDate), "MMM dd, yyyy hh:mm aa")
     : "No due date";
 
+  const createdformattedDate = _creationTime
+    ? format(new Date(_creationTime), "MMM dd, yyyy hh:mm aa")
+    : "No date";
+  const updatedFormattedDate = updatedAt
+    ? format(new Date(updatedAt), "MMM dd, yyyy hh:mm aa")
+    : "No date";
+
   const statusColor =
     taskStatus === "Completed"
       ? "bg-green-500 text-white"
@@ -60,7 +61,7 @@ export const TaskCard = ({ task }: TaskCardProps) => {
           : "text-gray-500";
 
   return (
-    <Card key={_id} className="w-full shadow-md border">
+    <Card key={`${tasksUserId} -${_id}`} className="w-full shadow-md border">
       <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
         <CardTitle className="text-lg font-semibold truncate">
           {taskName}
@@ -76,6 +77,15 @@ export const TaskCard = ({ task }: TaskCardProps) => {
         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
           <CalendarIcon className="h-4 w-4" />
           <span>{formattedDueDate}</span>
+        </div>
+        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+          <CalendarIcon className="h-4 w-4" />
+          <span>{createdformattedDate}</span>
+        </div>
+        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+          <CalendarIcon className="h-4 w-4" />
+          <span>{updatedFormattedDate}</span>
+          <span>{subjectId}</span>
         </div>
         {priority && (
           <div className="flex items-center space-x-2 text-sm text-muted-foreground">
@@ -124,8 +134,8 @@ export const NoTasksFound = () => {
       <InboxIcon className="h-16 w-16 text-gray-400" />
       <h1 className="text-2xl font-bold text-gray-700">No Tasks Found</h1>
       <p className="text-gray-500 text-center">
-        Looks like you don't have any tasks yet. Click the button below to
-        create one!
+        {`Looks like you don't have any tasks yet. Click the button below to
+        create one!`}
       </p>
 
       <TaskDialog taskId={undefined} type="create" />

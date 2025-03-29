@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import {
   Dialog,
@@ -18,7 +17,7 @@ import {
 } from "@/api/tasks/tasks-mutation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { Doc, Id } from "../../../convex/_generated/dataModel";
+import { Id } from "../../../convex/_generated/dataModel";
 import { Button } from "../ui/button";
 import { useGetTaskById } from "@/api/tasks/tasks-query";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,8 +28,6 @@ import FormSelect from "../form-controls/form-select";
 import SubmitButton from "../ui/submit-button";
 import { FormDateTimePicker } from "../form-controls/form-date-picker";
 import { cn } from "@/lib/utils";
-
-type task = Doc<"tasks">;
 
 interface TaskDialogProps {
   type: "create" | "update" | "remove";
@@ -51,11 +48,11 @@ const TaskDialog = ({ type, taskId }: TaskDialogProps) => {
   const handleCreateUpdateTask = (data: TaskZodType) => {
     if (type === "create") {
       createTask(data, {
-        onSuccess(data) {
+        onSuccess() {
           isOpen(false);
           toast.success("Task created successfully");
         },
-        onError(error) {
+        onError() {
           toast.error("Error creating task");
         },
       });
@@ -80,7 +77,7 @@ const TaskDialog = ({ type, taskId }: TaskDialogProps) => {
             isOpen(false);
             toast.success("Task deleted successfully");
           },
-          onError(error) {
+          onError({}) {
             toast.error("Error deleting task");
           },
         }
@@ -119,7 +116,7 @@ const TaskDialog = ({ type, taskId }: TaskDialogProps) => {
           {type === "update" && <DialogTitle>update Your Task </DialogTitle>}
           {type === "remove" && <DialogTitle>FRemove this task </DialogTitle>}
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            {`Make changes to your profile here. Click save when you're done.`}
           </DialogDescription>
         </DialogHeader>
 
@@ -187,7 +184,7 @@ const TaskDialog = ({ type, taskId }: TaskDialogProps) => {
           </Form>
         ) : type === "remove" && task ? (
           <div className="py-4">
-            <p>Are you sure you want to remove the task "{task.taskName}"?</p>
+            <p>{`Are you sure you want to remove the task "${task.taskName}"?`}</p>
             <DialogFooter>
               <DialogClose>Cancel</DialogClose>
               <Button

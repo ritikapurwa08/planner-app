@@ -5,7 +5,6 @@ import { z } from "zod";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Form } from "../ui/form";
 import FormInput from "../form-controls/form-input";
-import { Button } from "../ui/button";
 import { toast } from "react-hot-toast";
 import SubmitButton from "../ui/submit-button";
 
@@ -24,8 +23,8 @@ const UserSignIn = () => {
       });
       toast.success("Signed in successfully!");
       // You might want to redirect the user after successful sign-in
-    } catch (error: any) {
-      toast.error(`Sign in failed: ${error.message}`);
+    } catch (error: unknown) {
+      toast.error(`Sign in failed: ${error}`);
     } finally {
       setLoading(false);
     }

@@ -13,8 +13,8 @@ const LogoutButton = () => {
     try {
       await signOut();
       toast.success("Successfully signed out."); // Optional success message
-    } catch (error: any) {
-      toast.error(`Sign out failed: ${error.message}`); // Optional error message
+    } catch (error: unknown) {
+      toast.error(`Sign out failed: ${error}`); // Optional error message
     } finally {
       setLoading(false); // May not always be reached due to redirection
     }
